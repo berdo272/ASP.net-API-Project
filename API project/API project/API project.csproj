@@ -207,10 +207,22 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603081945101_initialSchema.cs" />
+    <Compile Include="Migrations\201603081945101_initialSchema.Designer.cs">
+      <DependentUpon>201603081945101_initialSchema.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ConfigurationChainmailDB.cs" />
+    <Compile Include="Migrations\ConfigurationApplicationDB.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ChainmailDBContext.cs" />
+    <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\CustomOrder.cs" />
+    <Compile Include="Models\CustomOrderItem.cs" />
+    <Compile Include="Models\FinishedItem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -276,6 +288,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Paypal\Index.cshtml" />
+    <Content Include="Views\Paypal\FailureView.cshtml" />
+    <Content Include="Views\Paypal\SuccessView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -287,6 +302,11 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201603081945101_initialSchema.resx">
+      <DependentUpon>201603081945101_initialSchema.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

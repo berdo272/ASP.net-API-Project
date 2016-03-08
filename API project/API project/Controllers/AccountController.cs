@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using API_project.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace API_project.Controllers
 {
@@ -151,7 +152,12 @@ namespace API_project.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, AddressStreet = model.AddressStreet, AddressCity = model.AddressCity, AddressState = model.AddressState, AddressZipcode = model.AddressZipcode, FirstName = model.FirstName, LastName = model.LastName };
+
+                RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+                IdentityRole role = new IdentityRole("registered");
+                await roleManager.CreateAsync(role);
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
