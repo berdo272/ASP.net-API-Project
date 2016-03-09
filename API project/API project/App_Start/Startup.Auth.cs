@@ -54,15 +54,15 @@ namespace API_project
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "958870284181339",
+               appSecret: "8f17dfd5ec63ea980f5dd7410dc5f968");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "372769355176-38bi8dtu1omk4uaftq5nk0flf0antdgk.apps.googleusercontent.com",
+                ClientSecret = "IWpuLIfN4A4zfz2YU3qeryLL"
+            });
         }
     }
 }

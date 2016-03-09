@@ -12,7 +12,7 @@ namespace API_project.ApplicationDB.Migrations
     {
         public ConfigurationApplicationDB()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(API_project.Models.ApplicationDbContext context)
