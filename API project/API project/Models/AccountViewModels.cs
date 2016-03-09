@@ -6,8 +6,25 @@ namespace API_project.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Street Address")]
+        public string AddressStreet { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public string AddressCity { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public string AddressState { get; set; }
+
+        [Required]
+        [Display(Name = "Zipcode")]
+        public string AddressZipcode { get; set; }
     }
 
     public class ExternalLoginListViewModel

@@ -21,7 +21,7 @@ namespace API_project.ApplicationDB.Migrations
             RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(roleStore);
             UserStore<ApplicationUser> userStore = new UserStore<ApplicationUser>(context);
             UserManager<ApplicationUser> userManager = new ApplicationUserManager(userStore);
-            ApplicationUser admin = new ApplicationUser { UserName = "admin@gmail.com", FirstName = "James", LastName = "Gille" };
+            ApplicationUser admin = new ApplicationUser { UserName = "admin@gmail.com", FirstName = "Robert", LastName = "Starrett" };
 
             userManager.Create(admin, password: "password");
             roleManager.Create(new IdentityRole { Name = "admin" });

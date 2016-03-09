@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FinishedItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
@@ -291,6 +292,12 @@
     <Content Include="Views\Paypal\Index.cshtml" />
     <Content Include="Views\Paypal\FailureView.cshtml" />
     <Content Include="Views\Paypal\SuccessView.cshtml" />
+    <Content Include="Views\FinishedItems\Create.cshtml" />
+    <Content Include="Views\FinishedItems\Delete.cshtml" />
+    <Content Include="Views\FinishedItems\Details.cshtml" />
+    <Content Include="Views\FinishedItems\Edit.cshtml" />
+    <Content Include="Views\FinishedItems\Index.cshtml" />
+    <Content Include="Views\Manage\UpdateUserInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

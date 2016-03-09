@@ -83,4 +83,36 @@ namespace API_project.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+    public class UpdateInfoViewModel
+    {
+        //public string Id { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Street Address")]
+        public string AddressStreet { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public string AddressCity { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public string AddressState { get; set; }
+
+        [Required]
+        [Display(Name = "Zipcode")]
+        public string AddressZipcode { get; set; }
+    }
 }

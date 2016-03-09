@@ -49,7 +49,30 @@ namespace API_project.Controllers
                 _userManager = value;
             }
         }
+        public ActionResult UpdateUserInformation()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UpdateUserInformation(UpdateInfoViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                user.AddressCity = model.AddressCity;
+                user.AddressState = model.AddressState;
+                user.AddressStreet = model.AddressStreet;
+                user.AddressZipcode = model.AddressZipcode;
+                user.Email = model.Email;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                await UserManager.UpdateAsync(user);
+            }
 
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Index", "Manage"); //View(model);
+        }
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
