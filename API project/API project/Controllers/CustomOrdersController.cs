@@ -7,111 +7,119 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using API_project.Models;
+using Microsoft.AspNet.Identity;
 
 namespace API_project.Controllers
 {   [Authorize]
-    public class FinishedItemsController : Controller
+    public class CustomOrdersController : Controller
     {
         private ChainmailDBContext db = new ChainmailDBContext();
 
-        // GET: FinishedItems
-        [AllowAnonymous]
+        // GET: CustomOrders
         public ActionResult Index()
         {
-            return View(db.FinishedItems.ToList());
+            if (User.IsInRole("admin"))
+            {
+                return View(db.CustomOrders.ToList());
+            }
+            string userId = User.Identity.GetUserId();
+            List<CustomOrder> userOrders = db.CustomOrders.Select(m => m).Where(s => s.CustomerID == userId).ToList();
+            return View(userOrders.ToList());
         }
 
-        // GET: FinishedItems/Details/5
+        // GET: CustomOrders/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FinishedItem finishedItem = db.FinishedItems.Find(id);
-            if (finishedItem == null)
+            CustomOrder customOrder = db.CustomOrders.Find(id);
+            if (customOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(finishedItem);
+            return View(customOrder);
         }
 
-        // GET: FinishedItems/Create
+        // GET: CustomOrders/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: FinishedItems/Create
+        // POST: CustomOrders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Price,Description")] FinishedItem finishedItem)
+        public ActionResult Create([Bind(Include = "Id,CustomerID,RequestDescription")] CustomOrder customOrder)
         {
             if (ModelState.IsValid)
             {
-                db.FinishedItems.Add(finishedItem);
+
+                customOrder.CustomerID = User.Identity.GetUserId();
+                db.CustomOrders.Add(customOrder);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(finishedItem);
+            return View(customOrder);
         }
 
-        // GET: FinishedItems/Edit/5
+        // GET: CustomOrders/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FinishedItem finishedItem = db.FinishedItems.Find(id);
-            if (finishedItem == null)
+            CustomOrder customOrder = db.CustomOrders.Find(id);
+            if (customOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(finishedItem);
+            return View(customOrder);
         }
 
-        // POST: FinishedItems/Edit/5
+        // POST: CustomOrders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Price,Description")] FinishedItem finishedItem)
+        public ActionResult Edit([Bind(Include = "Id,OrderId,CustomerID,RequestDescription")] CustomOrder customOrder)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(finishedItem).State = EntityState.Modified;
+                db.Entry(customOrder).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(finishedItem);
+            return View(customOrder);
         }
 
-        // GET: FinishedItems/Delete/5
+        // GET: CustomOrders/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FinishedItem finishedItem = db.FinishedItems.Find(id);
-            if (finishedItem == null)
+            CustomOrder customOrder = db.CustomOrders.Find(id);
+            if (customOrder == null)
             {
                 return HttpNotFound();
             }
-            return View(finishedItem);
+            return View(customOrder);
         }
 
-        // POST: FinishedItems/Delete/5
+        // POST: CustomOrders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            FinishedItem finishedItem = db.FinishedItems.Find(id);
-            db.FinishedItems.Remove(finishedItem);
+            CustomOrder customOrder = db.CustomOrders.Find(id);
+            db.CustomOrders.Remove(customOrder);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

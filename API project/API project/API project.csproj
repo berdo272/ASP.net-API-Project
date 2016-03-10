@@ -205,6 +205,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomOrderItemsController.cs" />
+    <Compile Include="Controllers\CustomOrdersController.cs" />
     <Compile Include="Controllers\FinishedItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -298,6 +300,16 @@
     <Content Include="Views\FinishedItems\Edit.cshtml" />
     <Content Include="Views\FinishedItems\Index.cshtml" />
     <Content Include="Views\Manage\UpdateUserInformation.cshtml" />
+    <Content Include="Views\CustomOrders\Create.cshtml" />
+    <Content Include="Views\CustomOrders\Delete.cshtml" />
+    <Content Include="Views\CustomOrders\Details.cshtml" />
+    <Content Include="Views\CustomOrders\Edit.cshtml" />
+    <Content Include="Views\CustomOrders\Index.cshtml" />
+    <Content Include="Views\CustomOrderItems\Create.cshtml" />
+    <Content Include="Views\CustomOrderItems\Delete.cshtml" />
+    <Content Include="Views\CustomOrderItems\Details.cshtml" />
+    <Content Include="Views\CustomOrderItems\Edit.cshtml" />
+    <Content Include="Views\CustomOrderItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

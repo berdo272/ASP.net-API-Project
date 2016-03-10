@@ -15,7 +15,7 @@ namespace API_project.Controllers
         private Payment payment;
 
         // GET: Paypal
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             return View();
         }
