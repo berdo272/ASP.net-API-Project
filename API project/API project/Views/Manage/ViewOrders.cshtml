@@ -1,0 +1,61 @@
+﻿@model IEnumerable<API_project.Models.CustomOrderItem>
+
+@{
+    ViewBag.Title = "ViewOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewOrders</h2>
+
+
+<table class="table">
+    <tr>
+        @if (User.IsInRole("admin"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerID)
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatedTimeOfCompletion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SellersNotes)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerID)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedTimeOfCompletion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellersNotes)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details","CustomOrderItems", new { id = item.Id }, new { @class = "btn-primary btn" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -209,6 +209,7 @@
     <Compile Include="Controllers\CustomOrdersController.cs" />
     <Compile Include="Controllers\FinishedItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PaypalController.cs" />
     <Compile Include="Global.asax.cs">
@@ -227,6 +228,8 @@
     <Compile Include="Models\CustomOrderItem.cs" />
     <Compile Include="Models\FinishedItem.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\PaymentViewModel.cs" />
+    <Compile Include="Models\Supplies.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -310,6 +313,14 @@
     <Content Include="Views\CustomOrderItems\Details.cshtml" />
     <Content Include="Views\CustomOrderItems\Edit.cshtml" />
     <Content Include="Views\CustomOrderItems\Index.cshtml" />
+    <Content Include="Views\Manage\ViewOrders.cshtml" />
+    <Content Include="Views\Inventory\Create.cshtml" />
+    <Content Include="Views\Inventory\Delete.cshtml" />
+    <Content Include="Views\Inventory\Details.cshtml" />
+    <Content Include="Views\Inventory\Edit.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Paypal\IndexFinished.cshtml" />
+    <Content Include="Views\Paypal\IndexCustom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

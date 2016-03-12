@@ -13,13 +13,46 @@ namespace API_project.Controllers
     public class PaypalController : Controller
     {
         private Payment payment;
+        private ChainmailDBContext db = new ChainmailDBContext();
+        Random rand = new Random();
 
         // GET: Paypal
         public ActionResult Index(int? id)
         {
+
             return View();
         }
-        
+        public ActionResult IndexCustom(int? id)
+        {
+
+            PaymentViewModel pvm = new PaymentViewModel();
+            var item = db.CustomItems.Find(id);
+
+            pvm.CustomerID = item.CustomerID;
+            pvm.Shipping = 9;
+            pvm.Tax = (Math.Round((item.Price * .06m), 2));
+            pvm.Subtotal = item.Price;
+            pvm.ItemName = item.Description;
+            pvm.Total = pvm.Subtotal + pvm.Tax + pvm.Shipping;
+            TempData["pvm"] = pvm;
+            return View();
+        }
+        public ActionResult IndexFinished(int? id)
+        {
+
+            PaymentViewModel pvm = new PaymentViewModel();
+            var item = db.FinishedItems.Find(id);
+
+            pvm.Shipping = 9;
+            pvm.Tax = (Math.Round((item.Price * .06m), 2));
+            pvm.Subtotal = item.Price;
+            pvm.ItemName = item.Description;
+            pvm.Total = pvm.Subtotal + pvm.Tax + pvm.Shipping;
+            TempData["pvm"] = pvm;
+            return View();
+        }
+
+
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
             var paymentExecution = new PaymentExecution() { payer_id = payerId };
@@ -28,15 +61,15 @@ namespace API_project.Controllers
         }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl)
         {
-
+            PaymentViewModel pvm =   (PaymentViewModel)TempData["pvm"];
             //similar to credit card create itemlist and add item objects to it
             var itemList = new ItemList() { items = new List<Item>() };
 
             itemList.items.Add(new Item()
             {
-                name = "Item Name",
+                name = "",
                 currency = "USD",
-                price = "5",
+                price = pvm.Subtotal.ToString(),
                 quantity = "1",
                 sku = "sku"
             });
@@ -53,16 +86,18 @@ namespace API_project.Controllers
             // similar as we did for credit card, do here and create details object
             var details = new Details()
             {
-                tax = "1",
-                shipping = "1",
-                subtotal = "5"
+                
+
+                tax = pvm.Tax.ToString(),
+                shipping = pvm.Shipping.ToString(),
+                subtotal = pvm.Subtotal.ToString(),
             };
 
             // similar as we did for credit card, do here and create amount object
             var amount = new Amount()
             {
                 currency = "USD",
-                total = "7", // Total must be equal to sum of shipping, tax and subtotal.
+                total = pvm.Total.ToString(), // Total must be equal to sum of shipping, tax and subtotal.
                 details = details
             };
 
@@ -70,8 +105,9 @@ namespace API_project.Controllers
 
             transactionList.Add(new Transaction()
             {
+                
                 description = "Transaction description.",
-                invoice_number = "your invoice number",
+                invoice_number = rand.Next(99999999).ToString(),
                 amount = amount,
                 item_list = itemList
             });

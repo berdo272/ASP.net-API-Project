@@ -11,13 +11,6 @@
     <h4>CustomOrderItem</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OrderID)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Description)
@@ -54,6 +47,12 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Buy Item", "IndexCustom", "Paypal",new { id = Model.Id }, new { @class = "btn-success btn" }) <br />
+    @if (User.IsInRole("admin")){
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    } 
+    
+
+   
     @Html.ActionLink("Back to List", "Index")
 </p>

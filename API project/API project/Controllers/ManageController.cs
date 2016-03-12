@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using API_project.Models;
+using System.Collections.Generic;
 
 namespace API_project.Controllers
 {
@@ -15,6 +16,7 @@ namespace API_project.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ChainmailDBContext db = new ChainmailDBContext();
 
         public ManageController()
         {
@@ -341,6 +343,16 @@ namespace API_project.Controllers
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+        public ActionResult ViewOrders()
+        {
+            if (User.IsInRole("admin"))
+            {
+                return View(db.CustomItems.ToList());
+            }
+            string userId = User.Identity.GetUserId();
+            List<CustomOrderItem> userItems = db.CustomItems.Select(m => m).Where(s => s.CustomerID == userId).ToList();
+            return View(userItems.ToList());
         }
 
         protected override void Dispose(bool disposing)

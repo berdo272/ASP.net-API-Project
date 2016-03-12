@@ -15,5 +15,7 @@ namespace API_project.Models
         public DbSet<CustomOrder> CustomOrders { get; set; }
         public DbSet<FinishedItem> FinishedItems { get; set; }
         public DbSet<CustomOrderItem> CustomItems { get; set; }
+        public DbSet<Supplies> Inventory { get; set; }
+
     }
 }

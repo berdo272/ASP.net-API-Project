@@ -1,4 +1,4 @@
-﻿@model API_project.Models.FinishedItem
+﻿@model API_project.Models.Supplies
 
 @{
     ViewBag.Title = "Details";
@@ -8,6 +8,7 @@
 <h2>Details</h2>
 
 <div>
+    <h4>Supplies</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -19,11 +20,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Quantity)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Price)
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsePrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsePrice)
         </dd>
 
         <dt>
@@ -37,7 +54,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Buy Item", "IndexFinished", "Paypal", new { id = Model.Id }, new { @class = "btn-success btn" })
-</p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

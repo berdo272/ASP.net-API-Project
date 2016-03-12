@@ -10,112 +10,108 @@ using API_project.Models;
 
 namespace API_project.Controllers
 {
-    public class CustomOrderItemsController : Controller
+    [Authorize(Roles ="admin")]
+    public class InventoryController : Controller
     {
         private ChainmailDBContext db = new ChainmailDBContext();
 
-        // GET: CustomOrderItems
+        // GET: Inventory
         public ActionResult Index()
         {
-            return View(db.CustomItems.ToList());
+            return View(db.Inventory.ToList());
         }
 
-        // GET: CustomOrderItems/Details/5
+        // GET: Inventory/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomOrderItem customOrderItem = db.CustomItems.Find(id);
-            if (customOrderItem == null)
+            Supplies supplies = db.Inventory.Find(id);
+            if (supplies == null)
             {
                 return HttpNotFound();
             }
-            return View(customOrderItem);
+            return View(supplies);
         }
 
-        // GET: CustomOrderItems/Create
+        // GET: Inventory/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CustomOrderItems/Create
+        // POST: Inventory/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CustomerID,Description,Price,EstimatedTimeOfCompletion,SellersNotes")] CustomOrderItem customOrderItem)
+        public ActionResult Create([Bind(Include = "Id,Name,Quantity,Cost,UsePrice,Description")] Supplies supplies)
         {
-            CustomOrder passedModel = db.CustomOrders.Find(Convert.ToInt32(RouteData.Values["id"]));
-
-            customOrderItem.Id = Convert.ToInt32(RouteData.Values["id"]);
-            customOrderItem.CustomerID = passedModel.CustomerID;
             if (ModelState.IsValid)
             {
-                
-                db.CustomItems.Add(customOrderItem);
+                db.Inventory.Add(supplies);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(customOrderItem);
+            return View(supplies);
         }
 
-        // GET: CustomOrderItems/Edit/5
-        public ActionResult Edit(string id)
+        // GET: Inventory/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomOrderItem customOrderItem = db.CustomItems.Find(id);
-            if (customOrderItem == null)
+            Supplies supplies = db.Inventory.Find(id);
+            if (supplies == null)
             {
                 return HttpNotFound();
             }
-            return View(customOrderItem);
+            return View(supplies);
         }
 
-        // POST: CustomOrderItems/Edit/5
+        // POST: Inventory/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,OrderID,Description,Price,EstimatedTimeOfCompletion,SellersNotes")] CustomOrderItem customOrderItem)
+        public ActionResult Edit([Bind(Include = "Id,Name,Quantity,Cost,UsePrice,Description")] Supplies supplies)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customOrderItem).State = EntityState.Modified;
+                db.Entry(supplies).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(customOrderItem);
+            return View(supplies);
         }
 
-        // GET: CustomOrderItems/Delete/5
-        public ActionResult Delete(string id)
+        // GET: Inventory/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CustomOrderItem customOrderItem = db.CustomItems.Find(id);
-            if (customOrderItem == null)
+            Supplies supplies = db.Inventory.Find(id);
+            if (supplies == null)
             {
                 return HttpNotFound();
             }
-            return View(customOrderItem);
+            return View(supplies);
         }
 
-        // POST: CustomOrderItems/Delete/5
+        // POST: Inventory/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            CustomOrderItem customOrderItem = db.CustomItems.Find(id);
-            db.CustomItems.Remove(customOrderItem);
+            Supplies supplies = db.Inventory.Find(id);
+            db.Inventory.Remove(supplies);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
