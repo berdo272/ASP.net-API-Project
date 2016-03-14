@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<API_project.Models.CustomOrderItem>
 
 @{
-    ViewBag.Title = "ViewOrders";
+    
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ViewOrders</h2>
+<h2>View Orders</h2>
 
 
 <table class="table">
@@ -23,11 +23,17 @@
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EstimatedTimeOfCompletion)
+            Estimated Completion
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SellersNotes)
         </th>
+        @if (User.IsInRole("admin"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.HasBeenPurchased)
+            </th>
+        }
         <th></th>
     </tr>
 
@@ -52,6 +58,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.SellersNotes)
             </td>
+            @if (User.IsInRole("admin"))
+            {
+                <th>
+                    @Html.DisplayFor(modelItem => item.HasBeenPurchased)
+                </th>
+            }
             <td>
                 @Html.ActionLink("Details", "Details","CustomOrderItems", new { id = item.Id }, new { @class = "btn-primary btn" })
             </td>

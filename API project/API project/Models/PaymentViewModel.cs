@@ -8,6 +8,7 @@ namespace API_project.Models
     public class PaymentViewModel
     {
         public string CustomerID;
+        public int? ItemNumber;
         public decimal Shipping = 9;
         public decimal Tax;
         public decimal Price;

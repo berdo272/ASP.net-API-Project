@@ -64,7 +64,7 @@ namespace API_project.Controllers
         }
 
         // GET: CustomOrderItems/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {

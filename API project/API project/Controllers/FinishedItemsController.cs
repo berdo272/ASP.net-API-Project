@@ -18,7 +18,13 @@ namespace API_project.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View(db.FinishedItems.ToList());
+            if (User.IsInRole("admin"))
+            {
+                return View(db.FinishedItems.ToList());
+            }
+            
+            List<FinishedItem> UnsoldItems = db.FinishedItems.Select(m => m).Where(s => s.HasBeenPurchased == false).ToList();
+            return View(UnsoldItems.ToList());
         }
 
         // GET: FinishedItems/Details/5

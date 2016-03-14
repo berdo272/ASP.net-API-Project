@@ -314,13 +314,13 @@
     <Content Include="Views\CustomOrderItems\Edit.cshtml" />
     <Content Include="Views\CustomOrderItems\Index.cshtml" />
     <Content Include="Views\Manage\ViewOrders.cshtml" />
+    <Content Include="Views\Paypal\IndexFinished.cshtml" />
+    <Content Include="Views\Paypal\IndexCustom.cshtml" />
     <Content Include="Views\Inventory\Create.cshtml" />
     <Content Include="Views\Inventory\Delete.cshtml" />
     <Content Include="Views\Inventory\Details.cshtml" />
     <Content Include="Views\Inventory\Edit.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
-    <Content Include="Views\Paypal\IndexFinished.cshtml" />
-    <Content Include="Views\Paypal\IndexCustom.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,7 +3,7 @@
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
+<h2>@ViewBag.Title</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
@@ -41,18 +41,27 @@
                     </td>
                 </tr>
             }
+            <tr>
+                <td>
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("View Custom Order Items", "ViewOrders", null, new { @class = "btn-primary btn" })
+                </td>
+            </tr>
+            @if (User.IsInRole("admin"))
+            {
                 <tr>
                     <td>
-                        <br />
+                        @Html.ActionLink("View Inventory", "index", "Inventory", null, new { @class = "btn-primary btn" })
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        @Html.ActionLink("View Custom Order Items", "ViewOrders", null, new { @class = "btn-primary btn" })
-                    </td>
-                </tr>
-            
-            </table>
-            
+            }
+
+
+        </table>
+
     </dl>
 </div>

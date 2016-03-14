@@ -15,11 +15,12 @@ namespace API_project.Controllers
         private Payment payment;
         private ChainmailDBContext db = new ChainmailDBContext();
         Random rand = new Random();
+        
 
         // GET: Paypal
         public ActionResult Index(int? id)
         {
-
+            
             return View();
         }
         public ActionResult IndexCustom(int? id)
@@ -28,6 +29,7 @@ namespace API_project.Controllers
             PaymentViewModel pvm = new PaymentViewModel();
             var item = db.CustomItems.Find(id);
 
+            pvm.ItemNumber = id;
             pvm.CustomerID = item.CustomerID;
             pvm.Shipping = 9;
             pvm.Tax = (Math.Round((item.Price * .06m), 2));
@@ -35,6 +37,9 @@ namespace API_project.Controllers
             pvm.ItemName = item.Description;
             pvm.Total = pvm.Subtotal + pvm.Tax + pvm.Shipping;
             TempData["pvm"] = pvm;
+
+           
+
             return View();
         }
         public ActionResult IndexFinished(int? id)
@@ -43,12 +48,16 @@ namespace API_project.Controllers
             PaymentViewModel pvm = new PaymentViewModel();
             var item = db.FinishedItems.Find(id);
 
+            pvm.ItemNumber = id;
             pvm.Shipping = 9;
             pvm.Tax = (Math.Round((item.Price * .06m), 2));
             pvm.Subtotal = item.Price;
             pvm.ItemName = item.Description;
             pvm.Total = pvm.Subtotal + pvm.Tax + pvm.Shipping;
             TempData["pvm"] = pvm;
+
+            
+
             return View();
         }
 
@@ -64,10 +73,11 @@ namespace API_project.Controllers
             PaymentViewModel pvm =   (PaymentViewModel)TempData["pvm"];
             //similar to credit card create itemlist and add item objects to it
             var itemList = new ItemList() { items = new List<Item>() };
+            TempData.Keep();
 
             itemList.items.Add(new Item()
             {
-                name = "",
+                name = pvm.ItemName,
                 currency = "USD",
                 price = pvm.Subtotal.ToString(),
                 quantity = "1",
@@ -243,12 +253,17 @@ namespace API_project.Controllers
                 return View("FailureView");
             }
 
+                
+            
             return View("SuccessView");
+
         }
-        public ActionResult PaymentWithPaypal()
+        public ActionResult PaymentWithPaypalFinished()
         {
             //getting the apiContext as earlier
             APIContext apiContext = Configuration.GetAPIContext();
+            PaymentViewModel pvm = (PaymentViewModel)TempData["pvm"];
+            var item = db.FinishedItems.Find(pvm.ItemNumber);
 
             try
             {
@@ -263,7 +278,7 @@ namespace API_project.Controllers
                     // baseURL is the url on which paypal sendsback the data.
                     // So we have provided URL of this controller only
                     string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
-                                "/Paypal/PaymentWithPayPal?";
+                                "/Paypal/PaymentWithPayPalFinished?";
 
                     //guid we are generating for storing the paymentID received in session
                     //after calling the create function and it is used in the payment execution
@@ -320,8 +335,91 @@ namespace API_project.Controllers
                 //Logger.Log("Error" + ex.Message);
                 return View("FailureView");
             }
-
+            item.HasBeenPurchased = true;
+            db.SaveChanges();
             return View("SuccessView");
         }
+        public ActionResult PaymentWithPaypalCustom()
+        {
+            //getting the apiContext as earlier
+            APIContext apiContext = Configuration.GetAPIContext();
+            PaymentViewModel pvm = (PaymentViewModel) TempData["pvm"];
+            var item = db.CustomItems.Find(pvm.ItemNumber);
+
+            try
+            {
+                string payerId = Request.Params["PayerID"];
+
+                if (string.IsNullOrEmpty(payerId))
+                {
+                    //this section will be executed first because PayerID doesn't exist
+                    //it is returned by the create function call of the payment class
+
+                    // Creating a payment
+                    // baseURL is the url on which paypal sendsback the data.
+                    // So we have provided URL of this controller only
+                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
+                                "/Paypal/PaymentWithPayPalCustom?";
+
+                    //guid we are generating for storing the paymentID received in session
+                    //after calling the create function and it is used in the payment execution
+
+                    var guid = Convert.ToString((new Random()).Next(100000));
+
+                    //CreatePayment function gives us the payment approval url
+                    //on which payer is redirected for paypal account payment
+
+                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid);
+
+                    //get links returned from paypal in response to Create function call
+
+                    var links = createdPayment.links.GetEnumerator();
+
+                    string paypalRedirectUrl = null;
+
+                    while (links.MoveNext())
+                    {
+                        Links lnk = links.Current;
+
+                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                        {
+                            //saving the payapalredirect URL to which user will be redirected for payment
+                            paypalRedirectUrl = lnk.href;
+                        }
+                    }
+
+                    // saving the paymentID in the key guid
+                    Session.Add(guid, createdPayment.id);
+
+                    return Redirect(paypalRedirectUrl);
+                }
+                else
+                {
+                    // This section is executed when we have received all the payments parameters
+
+                    // from the previous call to the function Create
+
+                    // Executing a payment
+
+                    var guid = Request.Params["guid"];
+
+                    var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+
+                    if (executedPayment.state.ToLower() != "approved")
+                    {
+                        return View("FailureView");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Logger.Log("Error" + ex.Message);
+                return View("FailureView");
+            }
+            item.HasBeenPurchased = true;
+            db.SaveChanges();
+            return View("SuccessView");
+        }
+
     }
 }

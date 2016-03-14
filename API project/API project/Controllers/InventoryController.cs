@@ -9,8 +9,7 @@ using System.Web.Mvc;
 using API_project.Models;
 
 namespace API_project.Controllers
-{
-    [Authorize(Roles ="admin")]
+{   [Authorize(Roles = "admin")]
     public class InventoryController : Controller
     {
         private ChainmailDBContext db = new ChainmailDBContext();
@@ -47,7 +46,7 @@ namespace API_project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Quantity,Cost,UsePrice,Description")] Supplies supplies)
+        public ActionResult Create([Bind(Include = "Id,Material,Size,Quantity,Cost,UsePrice,Notes")] Supplies supplies)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +78,7 @@ namespace API_project.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Quantity,Cost,UsePrice,Description")] Supplies supplies)
+        public ActionResult Edit([Bind(Include = "Id,Material,Size,Quantity,Cost,UsePrice,Notes")] Supplies supplies)
         {
             if (ModelState.IsValid)
             {

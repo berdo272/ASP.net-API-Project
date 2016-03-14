@@ -13,6 +13,7 @@ namespace API_project.Models
         public decimal Price { get; set; }
         public DateTime EstimatedTimeOfCompletion { get; set; }
         public string SellersNotes { get; set; }
+        public bool HasBeenPurchased { get; set; }
 
     }
 }
